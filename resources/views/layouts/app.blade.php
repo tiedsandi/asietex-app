@@ -95,8 +95,12 @@
             </a>
 
             <div class="nav-label">Master Data</div>
+            <a href="{{ route('categories.index') }}"
+                class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                <i class="bi bi-tags me-2"></i> Kategori
+            </a>
             {{-- TODO: tambahkan link saat route sudah dibuat --}}
-            {{-- categories, products, suppliers, customers --}}
+            {{-- products, suppliers, customers --}}
 
             <div class="nav-label">Transaksi</div>
             {{-- TODO: tambahkan link saat route sudah dibuat --}}
