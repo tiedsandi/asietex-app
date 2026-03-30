@@ -103,8 +103,12 @@
                 class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
                 <i class="bi bi-truck me-2"></i> Supplier
             </a>
+            <a href="{{ route('customers.index') }}"
+                class="nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+                <i class="bi bi-people me-2"></i> Customer
+            </a>
             {{-- TODO: tambahkan link saat route sudah dibuat --}}
-            {{-- products, customers --}}
+            {{-- products --}}
 
             <div class="nav-label">Transaksi</div>
             {{-- TODO: tambahkan link saat route sudah dibuat --}}
