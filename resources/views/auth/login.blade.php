@@ -63,14 +63,22 @@
                     <label class="form-label fw-semibold">Email</label>
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                         value="{{ old('email') }}" placeholder="email@example.com" required autofocus>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                        placeholder="••••••••" required>
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                            {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label text-muted" for="remember">Ingat saya</label>
                     </div>
                 </div>

@@ -113,8 +113,12 @@
             </a>
 
             <div class="nav-label">Transaksi</div>
+            <a href="{{ route('purchase-orders.index') }}"
+                class="nav-link {{ request()->routeIs('purchase-orders.*') ? 'active' : '' }}">
+                <i class="bi bi-cart-plus me-2"></i> Purchase Order
+            </a>
             {{-- TODO: tambahkan link saat route sudah dibuat --}}
-            {{-- purchase-orders, sales-orders --}}
+            {{-- sales-orders --}}
         </nav>
     </div>
 
