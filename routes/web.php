@@ -8,6 +8,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SalesOrderController;
 
 // Redirect root ke login
 Route::get('/', fn() => redirect()->route('login'));
@@ -31,4 +32,5 @@ Route::middleware('auth')->group(function () {
 
     // Transaksi
     Route::resource('purchase-orders', PurchaseOrderController::class);
+    Route::resource('sales-orders', SalesOrderController::class);
 });
