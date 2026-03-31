@@ -61,7 +61,6 @@ class PurchaseOrderController extends Controller
                 ]);
             }
 
-            // Jika langsung dibuat dengan status received, tambah stok sekarang
             if ($request->status === 'received') {
                 foreach ($request->details as $detail) {
                     Product::where('id', $detail['product_id'])
