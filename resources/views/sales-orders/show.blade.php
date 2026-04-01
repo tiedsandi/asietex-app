@@ -4,89 +4,90 @@
 @section('page-title', 'Transaksi — Detail Sales Order')
 
 @section('content')
-    <div class="mb-3">
-        <a href="{{ route('sales-orders.index') }}" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Kembali
+    <div class="flex gap-2 mb-4">
+        <a href="{{ route('sales-orders.index') }}"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            Kembali
         </a>
-        <a href="{{ route('sales-orders.edit', $salesOrder) }}" class="btn btn-sm btn-outline-primary ms-1">
-            <i class="bi bi-pencil me-1"></i> Edit
+        <a href="{{ route('sales-orders.edit', $salesOrder) }}"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-blue-200 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+            <i data-lucide="pencil" class="w-4 h-4"></i>
+            Edit
         </a>
     </div>
 
-    <div class="row g-3">
-        <div class="col-md-5">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <h6 class="mb-0 fw-semibold">Informasi SO</h6>
-                </div>
-                <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                        <tr>
-                            <td class="text-muted" width="140">No. SO</td>
-                            <td class="fw-semibold">{{ $salesOrder->so_number }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Customer</td>
-                            <td>{{ $salesOrder->customer->name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Tgl Order</td>
-                            <td>{{ \Carbon\Carbon::parse($salesOrder->order_date)->format('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Status</td>
-                            <td>
-                                @php $badge = ['pending' => 'warning', 'shipped' => 'success', 'cancelled' => 'danger']; @endphp
-                                <span class="badge bg-{{ $badge[$salesOrder->status] ?? 'secondary' }}">
-                                    {{ ucfirst($salesOrder->status) }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Catatan</td>
-                            <td>{{ $salesOrder->notes ?? '-' }}</td>
-                        </tr>
-                    </table>
-                </div>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-gray-100">
+                <h6 class="font-semibold text-gray-700">Informasi SO</h6>
+            </div>
+            <div class="p-5">
+                @php $badge = ['pending'=>'bg-yellow-100 text-yellow-700','shipped'=>'bg-green-100 text-green-700','cancelled'=>'bg-red-100 text-red-600']; @endphp
+                <dl class="space-y-3 text-sm">
+                    <div class="flex gap-2">
+                        <dt class="w-28 text-gray-400 shrink-0">No. SO</dt>
+                        <dd class="font-semibold text-gray-800">{{ $salesOrder->so_number }}</dd>
+                    </div>
+                    <div class="flex gap-2">
+                        <dt class="w-28 text-gray-400 shrink-0">Customer</dt>
+                        <dd class="text-gray-700">{{ $salesOrder->customer->name }}</dd>
+                    </div>
+                    <div class="flex gap-2">
+                        <dt class="w-28 text-gray-400 shrink-0">Tgl Order</dt>
+                        <dd class="text-gray-700">{{ \Carbon\Carbon::parse($salesOrder->order_date)->format('d/m/Y') }}</dd>
+                    </div>
+                    <div class="flex gap-2 items-center">
+                        <dt class="w-28 text-gray-400 shrink-0">Status</dt>
+                        <dd><span
+                                class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $badge[$salesOrder->status] ?? 'bg-gray-100 text-gray-600' }}">{{ ucfirst($salesOrder->status) }}</span>
+                        </dd>
+                    </div>
+                    <div class="flex gap-2">
+                        <dt class="w-28 text-gray-400 shrink-0">Catatan</dt>
+                        <dd class="text-gray-600">{{ $salesOrder->notes ?? '-' }}</dd>
+                    </div>
+                </dl>
             </div>
         </div>
 
-        <div class="col-md-7">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <h6 class="mb-0 fw-semibold">Detail Produk</h6>
-                </div>
-                <div class="card-body p-0 table-responsive">
-                    <table class="table mb-0">
-                        <thead class="table-light">
+        <div class="lg:col-span-3 bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-gray-100">
+                <h6 class="font-semibold text-gray-700">Detail Produk</h6>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-medium w-8">#</th>
+                            <th class="px-4 py-3 text-left font-medium">Produk</th>
+                            <th class="px-4 py-3 text-right font-medium">Qty</th>
+                            <th class="px-4 py-3 text-right font-medium">Harga Satuan</th>
+                            <th class="px-4 py-3 text-right font-medium">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @foreach ($salesOrder->details as $i => $detail)
                             <tr>
-                                <th>#</th>
-                                <th>Produk</th>
-                                <th class="text-end">Qty</th>
-                                <th class="text-end">Harga Satuan</th>
-                                <th class="text-end">Subtotal</th>
+                                <td class="px-4 py-3 text-gray-500">{{ $i + 1 }}</td>
+                                <td class="px-4 py-3 text-gray-800">{{ $detail->product->name }}</td>
+                                <td class="px-4 py-3 text-right text-gray-600">{{ $detail->quantity }}
+                                    {{ $detail->product->unit }}</td>
+                                <td class="px-4 py-3 text-right text-gray-600">Rp
+                                    {{ number_format($detail->unit_price, 0, ',', '.') }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-800">Rp
+                                    {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($salesOrder->details as $i => $detail)
-                                <tr>
-                                    <td>{{ $i + 1 }}</td>
-                                    <td>{{ $detail->product->name }}</td>
-                                    <td class="text-end">{{ $detail->quantity }} {{ $detail->product->unit }}</td>
-                                    <td class="text-end">Rp {{ number_format($detail->unit_price, 0, ',', '.') }}</td>
-                                    <td class="text-end">Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot class="table-light">
-                            <tr>
-                                <td colspan="4" class="text-end fw-bold">Total</td>
-                                <td class="text-end fw-bold">Rp {{ number_format($salesOrder->total_amount, 0, ',', '.') }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                    <tfoot class="bg-gray-50">
+                        <tr>
+                            <td colspan="4" class="px-4 py-3 text-right font-bold text-gray-700">Total</td>
+                            <td class="px-4 py-3 text-right font-bold text-gray-800">Rp
+                                {{ number_format($salesOrder->total_amount, 0, ',', '.') }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>

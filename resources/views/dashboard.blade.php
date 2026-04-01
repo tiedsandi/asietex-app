@@ -5,242 +5,194 @@
 
 @section('content')
 
-    {{-- Row 1: Master Data --}}
-    <div class="row g-3 mb-3">
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #fdecea;">
-                        <i class="bi bi-tags fs-4" style="color: #c0392b;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Kategori</div>
-                        <div class="fw-bold fs-4">{{ $totalCategories }}</div>
-                    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        @php
+            $cards = [
+                [
+                    'label' => 'Kategori',
+                    'value' => $totalCategories,
+                    'bg' => 'bg-red-50',
+                    'text' => 'text-[#c0392b]',
+                    'icon' => 'tag',
+                ],
+                [
+                    'label' => 'Produk',
+                    'value' => $totalProducts,
+                    'bg' => 'bg-blue-50',
+                    'text' => 'text-blue-600',
+                    'icon' => 'package',
+                ],
+                [
+                    'label' => 'Supplier',
+                    'value' => $totalSuppliers,
+                    'bg' => 'bg-green-50',
+                    'text' => 'text-green-600',
+                    'icon' => 'truck',
+                ],
+                [
+                    'label' => 'Customer',
+                    'value' => $totalCustomers,
+                    'bg' => 'bg-yellow-50',
+                    'text' => 'text-yellow-600',
+                    'icon' => 'users',
+                ],
+            ];
+        @endphp
+        @foreach ($cards as $card)
+            <div class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-3">
+                <div class="p-3 rounded-xl {{ $card['bg'] }} shrink-0">
+                    <i data-lucide="{{ $card['icon'] }}" class="w-5 h-5 {{ $card['text'] }}"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500">{{ $card['label'] }}</div>
+                    <div class="text-2xl font-bold text-gray-800">{{ $card['value'] }}</div>
                 </div>
             </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #e8f4fd;">
-                        <i class="bi bi-box-seam fs-4" style="color: #2980b9;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Produk</div>
-                        <div class="fw-bold fs-4">{{ $totalProducts }}</div>
-                    </div>
+        @endforeach
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow-sm p-4">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="p-3 rounded-xl bg-purple-50 shrink-0">
+                    <i data-lucide="shopping-cart" class="w-5 h-5 text-purple-600"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500">Purchase Order</div>
+                    <div class="text-2xl font-bold text-gray-800">{{ $totalPO }}</div>
                 </div>
             </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #eafaf1;">
-                        <i class="bi bi-truck fs-4" style="color: #27ae60;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Supplier</div>
-                        <div class="fw-bold fs-4">{{ $totalSuppliers }}</div>
-                    </div>
-                </div>
+            <div class="flex justify-between items-center text-xs text-gray-500">
+                <span>Pending: <span class="font-semibold text-yellow-500">{{ $pendingPO }}</span></span>
+                <a href="{{ route('purchase-orders.index') }}" class="text-purple-600 hover:underline">Lihat</a>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #fef9e7;">
-                        <i class="bi bi-people fs-4" style="color: #f39c12;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Customer</div>
-                        <div class="fw-bold fs-4">{{ $totalCustomers }}</div>
-                    </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-4">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="p-3 rounded-xl bg-pink-50 shrink-0">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-pink-600"></i>
                 </div>
+                <div>
+                    <div class="text-xs text-gray-500">Sales Order</div>
+                    <div class="text-2xl font-bold text-gray-800">{{ $totalSO }}</div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center text-xs text-gray-500">
+                <span>Pending: <span class="font-semibold text-yellow-500">{{ $pendingSO }}</span></span>
+                <a href="{{ route('sales-orders.index') }}" class="text-pink-600 hover:underline">Lihat</a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-3">
+            <div class="p-3 rounded-xl bg-green-50 shrink-0">
+                <i data-lucide="arrow-down-circle" class="w-5 h-5 text-green-600"></i>
+            </div>
+            <div>
+                <div class="text-xs text-gray-500">Total Pembelian (received)</div>
+                <div class="text-sm font-bold text-gray-800">Rp {{ number_format($totalNilaiPO, 0, ',', '.') }}</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-3">
+            <div class="p-3 rounded-xl bg-red-50 shrink-0">
+                <i data-lucide="arrow-up-circle" class="w-5 h-5 text-[#c0392b]"></i>
+            </div>
+            <div>
+                <div class="text-xs text-gray-500">Total Penjualan (shipped)</div>
+                <div class="text-sm font-bold text-gray-800">Rp {{ number_format($totalNilaiSO, 0, ',', '.') }}</div>
             </div>
         </div>
     </div>
 
-    {{-- Row 2: Transaksi Stats --}}
-    <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center gap-3 mb-2">
-                        <div class="rounded-3 p-3" style="background-color: #f0eafe;">
-                            <i class="bi bi-cart-plus fs-4" style="color: #8e44ad;"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Purchase Order</div>
-                            <div class="fw-bold fs-4">{{ $totalPO }}</div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-muted small">
-                        <span>Pending: <span class="fw-semibold text-warning">{{ $pendingPO }}</span></span>
-                        <a href="{{ route('purchase-orders.index') }}" class="text-decoration-none"
-                            style="color: #8e44ad;">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center gap-3 mb-2">
-                        <div class="rounded-3 p-3" style="background-color: #fde8f0;">
-                            <i class="bi bi-bag-check fs-4" style="color: #e91e8c;"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Sales Order</div>
-                            <div class="fw-bold fs-4">{{ $totalSO }}</div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-muted small">
-                        <span>Pending: <span class="fw-semibold text-warning">{{ $pendingSO }}</span></span>
-                        <a href="{{ route('sales-orders.index') }}" class="text-decoration-none"
-                            style="color: #e91e8c;">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #eafaf1;">
-                        <i class="bi bi-arrow-down-circle fs-4" style="color: #27ae60;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Total Pembelian (received)</div>
-                        <div class="fw-bold">Rp {{ number_format($totalNilaiPO, 0, ',', '.') }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 p-3" style="background-color: #fdecea;">
-                        <i class="bi bi-arrow-up-circle fs-4" style="color: #c0392b;"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small">Total Penjualan (shipped)</div>
-                        <div class="fw-bold">Rp {{ number_format($totalNilaiSO, 0, ',', '.') }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-    {{-- Row 3: Stok Rendah + Transaksi Terbaru --}}
-    <div class="row g-3">
-        {{-- Stok Rendah --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white py-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-exclamation-triangle text-danger"></i>
-                    <h6 class="mb-0 fw-semibold">Produk Stok Rendah</h6>
-                    <span class="badge bg-danger ms-auto">≤ 10</span>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="triangle-alert" class="w-4 h-4 text-red-500"></i>
+                    <h6 class="text-sm font-semibold text-gray-700">Produk Stok Rendah</h6>
                 </div>
-                <div class="card-body p-0">
-                    @if ($lowStockProducts->isEmpty())
-                        <div class="text-center text-muted py-4 small">Semua stok aman ✓</div>
-                    @else
-                        <table class="table table-sm mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Produk</th>
-                                    <th class="text-end">Stok</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($lowStockProducts as $product)
-                                    <tr>
-                                        <td>
-                                            <div class="fw-semibold small">{{ $product->name }}</div>
-                                            <div class="text-muted" style="font-size:0.75rem;">
-                                                {{ $product->category->name ?? '-' }}</div>
-                                        </td>
-                                        <td class="text-end">
-                                            <span
-                                                class="badge {{ $product->stock == 0 ? 'bg-danger' : 'bg-warning text-dark' }}">
-                                                {{ $product->stock }} {{ $product->unit }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-semibold">≤ 10</span>
             </div>
-        </div>
-
-        {{-- PO Terbaru --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
-                    <h6 class="mb-0 fw-semibold">PO Terbaru</h6>
-                    <a href="{{ route('purchase-orders.index') }}"
-                        class="text-decoration-none small text-muted">Semua</a>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-sm mb-0">
-                        <tbody>
-                            @forelse($recentPO as $po)
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold small">{{ $po->po_number }}</div>
-                                        <div class="text-muted" style="font-size:0.75rem;">{{ $po->supplier->name }}
-                                        </div>
+            @if ($lowStockProducts->isEmpty())
+                <div class="text-center text-gray-400 text-sm py-8">Semua stok aman ✓</div>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+                            <tr>
+                                <th class="px-4 py-2 text-left font-medium">Produk</th>
+                                <th class="px-4 py-2 text-right font-medium">Stok</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            @foreach ($lowStockProducts as $product)
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2.5">
+                                        <div class="font-medium text-gray-800 text-xs">{{ $product->name }}</div>
+                                        <div class="text-gray-400 text-xs">{{ $product->category->name ?? '-' }}</div>
                                     </td>
-                                    <td class="text-end">
-                                        @php $badge = ['pending'=>'warning','received'=>'success','cancelled'=>'danger']; @endphp
+                                    <td class="px-4 py-2.5 text-right">
                                         <span
-                                            class="badge bg-{{ $badge[$po->status] ?? 'secondary' }}">{{ ucfirst($po->status) }}</span>
+                                            class="text-xs font-semibold px-2 py-0.5 rounded-full
+                                    {{ $product->stock == 0 ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-700' }}">
+                                            {{ $product->stock }} {{ $product->unit }}
+                                        </span>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="2" class="text-center text-muted py-3 small">Belum ada data.</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+            @endif
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                <h6 class="text-sm font-semibold text-gray-700">PO Terbaru</h6>
+                <a href="{{ route('purchase-orders.index') }}" class="text-xs text-gray-400 hover:text-gray-600">Semua</a>
+            </div>
+            <div class="divide-y divide-gray-50">
+                @forelse($recentPO as $po)
+                    <div class="px-4 py-3 flex items-center justify-between hover:bg-gray-50">
+                        <div>
+                            <div class="text-sm font-semibold text-gray-800">{{ $po->po_number }}</div>
+                            <div class="text-xs text-gray-400">{{ $po->supplier->name }}</div>
+                        </div>
+                        @php $badge = ['pending'=>'bg-yellow-100 text-yellow-700','received'=>'bg-green-100 text-green-700','cancelled'=>'bg-red-100 text-red-600']; @endphp
+                        <span
+                            class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $badge[$po->status] ?? 'bg-gray-100 text-gray-600' }}">
+                            {{ ucfirst($po->status) }}
+                        </span>
+                    </div>
+                @empty
+                    <div class="text-center text-gray-400 text-sm py-8">Belum ada data.</div>
+                @endforelse
             </div>
         </div>
 
-        {{-- SO Terbaru --}}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
-                    <h6 class="mb-0 fw-semibold">SO Terbaru</h6>
-                    <a href="{{ route('sales-orders.index') }}" class="text-decoration-none small text-muted">Semua</a>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-sm mb-0">
-                        <tbody>
-                            @forelse($recentSO as $so)
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold small">{{ $so->so_number }}</div>
-                                        <div class="text-muted" style="font-size:0.75rem;">{{ $so->customer->name }}
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        @php $badge = ['pending'=>'warning','shipped'=>'success','cancelled'=>'danger']; @endphp
-                                        <span
-                                            class="badge bg-{{ $badge[$so->status] ?? 'secondary' }}">{{ ucfirst($so->status) }}</span>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="2" class="text-center text-muted py-3 small">Belum ada data.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                <h6 class="text-sm font-semibold text-gray-700">SO Terbaru</h6>
+                <a href="{{ route('sales-orders.index') }}" class="text-xs text-gray-400 hover:text-gray-600">Semua</a>
+            </div>
+            <div class="divide-y divide-gray-50">
+                @forelse($recentSO as $so)
+                    <div class="px-4 py-3 flex items-center justify-between hover:bg-gray-50">
+                        <div>
+                            <div class="text-sm font-semibold text-gray-800">{{ $so->so_number }}</div>
+                            <div class="text-xs text-gray-400">{{ $so->customer->name }}</div>
+                        </div>
+                        @php $badge = ['pending'=>'bg-yellow-100 text-yellow-700','shipped'=>'bg-green-100 text-green-700','cancelled'=>'bg-red-100 text-red-600']; @endphp
+                        <span
+                            class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $badge[$so->status] ?? 'bg-gray-100 text-gray-600' }}">
+                            {{ ucfirst($so->status) }}
+                        </span>
+                    </div>
+                @empty
+                    <div class="text-center text-gray-400 text-sm py-8">Belum ada data.</div>
+                @endforelse
             </div>
         </div>
     </div>

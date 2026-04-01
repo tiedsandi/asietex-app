@@ -4,79 +4,90 @@
 @section('page-title', 'Master Data — Tambah Produk')
 
 @section('content')
-    <div class="card border-0 shadow-sm" style="max-width: 640px;">
-        <div class="card-header bg-white py-3">
-            <h6 class="mb-0 fw-semibold">Form Tambah Produk</h6>
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden max-w-2xl">
+        <div class="px-5 py-4 border-b border-gray-100">
+            <h6 class="font-semibold text-gray-700">Form Tambah Produk</h6>
         </div>
-        <div class="card-body">
-            <form action="{{ route('products.store') }}" method="POST">
+        <div class="p-5">
+            <form action="{{ route('products.store') }}" method="POST" id="theForm">
                 @csrf
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-semibold">Kode Produk <span class="text-danger">*</span></label>
-                        <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
-                            value="{{ old('code') }}" placeholder="BNG-001" required>
+                @php $inp = 'w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#c0392b]/40'; @endphp
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Kode Produk <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="code" value="{{ old('code') }}" placeholder="BNG-001" required
+                            class="{{ $inp }} {{ $errors->has('code') ? 'border-red-400 bg-red-50' : '' }}">
                         @error('code')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-md-8">
-                        <label class="form-label fw-semibold">Nama Produk <span class="text-danger">*</span></label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                            value="{{ old('name') }}" required>
+                    <div class="sm:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Produk <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="name" value="{{ old('name') }}" required
+                            class="{{ $inp }} {{ $errors->has('name') ? 'border-red-400 bg-red-50' : '' }}">
                         @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
-                        <select name="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Kategori <span
+                                class="text-red-500">*</span></label>
+                        <select name="category_id" required
+                            class="{{ $inp }} {{ $errors->has('category_id') ? 'border-red-400 bg-red-50' : '' }}">
                             <option value="">-- Pilih Kategori --</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
                         @error('category_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Satuan <span class="text-danger">*</span></label>
-                        <input type="text" name="unit" class="form-control @error('unit') is-invalid @enderror"
-                            value="{{ old('unit') }}" placeholder="kg / m / pcs / grs" required>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Satuan <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="unit" value="{{ old('unit') }}" placeholder="kg / m / pcs"
+                            required
+                            class="{{ $inp }} {{ $errors->has('unit') ? 'border-red-400 bg-red-50' : '' }}">
                         @error('unit')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
-                        <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
-                            value="{{ old('price', 0) }}" min="0" step="100" required>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Harga (Rp) <span
+                                class="text-red-500">*</span></label>
+                        <input type="number" name="price" value="{{ old('price', 0) }}" min="0" step="100"
+                            required
+                            class="{{ $inp }} {{ $errors->has('price') ? 'border-red-400 bg-red-50' : '' }}">
                         @error('price')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Stok Awal <span class="text-danger">*</span></label>
-                        <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror"
-                            value="{{ old('stock', 0) }}" min="0" required>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Stok Awal <span
+                                class="text-red-500">*</span></label>
+                        <input type="number" name="stock" value="{{ old('stock', 0) }}" min="0" required
+                            class="{{ $inp }} {{ $errors->has('stock') ? 'border-red-400 bg-red-50' : '' }}">
                         @error('stock')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label fw-semibold">Deskripsi</label>
-                        <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
                     </div>
                 </div>
-                <div class="d-flex gap-2 mt-4">
-                    <button type="submit" id="btnSubmit" class="btn text-white" style="background-color: #c0392b;">
-                        <i class="bi bi-check-lg me-1"></i> Simpan
-                    </button>
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi</label>
+                    <textarea name="description" rows="3" class="{{ $inp }}">{{ old('description') }}</textarea>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" id="btnSubmit"
+                        class="bg-[#c0392b] hover:bg-[#a93226] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Simpan</button>
+                    <a href="{{ route('products.index') }}"
+                        class="inline-flex items-center px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</a>
                 </div>
             </form>
         </div>
@@ -86,7 +97,7 @@
 @section('scripts')
     <script>
         let submitted = false;
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('theForm').addEventListener('submit', function(e) {
             if (submitted) {
                 e.preventDefault();
                 return;
@@ -94,7 +105,7 @@
             submitted = true;
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menyimpan...';
+            btn.textContent = 'Menyimpan...';
         });
     </script>
 @endsection

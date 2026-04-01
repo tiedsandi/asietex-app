@@ -5,221 +5,160 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Asietex App')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f0f2f5;
-        }
-
-        /* ── Sidebar ── */
-        .sidebar {
-            width: 250px;
-            min-height: 100vh;
-            background-color: #1a1a2e;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1045;
-            padding-top: 0;
-            transition: transform 0.25s ease;
-            overflow-y: auto;
-        }
-
-        .sidebar-brand {
-            background-color: #c0392b;
-            padding: 18px 20px;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .sidebar-brand small {
-            display: block;
-            font-weight: 400;
-            font-size: 11px;
-            opacity: 0.8;
-        }
-
-        .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.7);
-            padding: 10px 20px;
-            font-size: 14px;
-            border-radius: 0;
-            transition: all 0.2s;
-        }
-
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid #c0392b;
-        }
-
-        .sidebar .nav-label {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 16px 20px 6px;
-        }
-
-        /* ── Main Content ── */
-        .main-content {
-            margin-left: 250px;
-            transition: margin-left 0.25s ease;
-        }
-
-        .topbar {
-            background-color: #fff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 12px 24px;
-            position: sticky;
-            top: 0;
-            z-index: 99;
-        }
-
-        .page-content {
-            padding: 24px;
-        }
-
-        /* ── Overlay (mobile) ── */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1044;
-        }
-
-        /* ── Mobile breakpoint ── */
-        @media (max-width: 991.98px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay.show {
-                display: block;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .page-content {
-                padding: 16px;
-            }
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body>
+<body class="bg-gray-100 font-sans antialiased">
+
     {{-- Sidebar Overlay (mobile) --}}
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
 
     {{-- Sidebar --}}
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-            <i class="bi bi-building me-2"></i> ASIETEX
-            <small>Sinar Indopratama</small>
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-50 h-full w-64 bg-[#1a1a2e] flex flex-col
+               -translate-x-full lg:translate-x-0 transition-transform duration-250">
+
+        {{-- Brand --}}
+        <div class="bg-[#c0392b] px-5 py-[18px]">
+            <div class="text-white font-bold text-base flex items-center gap-2">
+                <i data-lucide="building-2" class="w-4 h-4"></i>
+                ASIETEX
+            </div>
+            <div class="text-white/80 text-[11px] font-normal">Sinar Indopratama</div>
         </div>
-        <nav class="mt-2">
-            <div class="nav-label">Utama</div>
-            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+
+        {{-- Nav --}}
+        <nav class="flex-1 overflow-y-auto mt-2 pb-6">
+            <div class="px-5 pt-4 pb-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/40">Utama</div>
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('dashboard') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
+                Dashboard
             </a>
 
-            <div class="nav-label">Master Data</div>
+            <div class="px-5 pt-4 pb-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/40">Master Data
+            </div>
             <a href="{{ route('categories.index') }}"
-                class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-                <i class="bi bi-tags me-2"></i> Kategori
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('categories.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="tag" class="w-4 h-4 shrink-0"></i>
+                Kategori
             </a>
             <a href="{{ route('suppliers.index') }}"
-                class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
-                <i class="bi bi-truck me-2"></i> Supplier
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('suppliers.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="truck" class="w-4 h-4 shrink-0"></i>
+                Supplier
             </a>
             <a href="{{ route('customers.index') }}"
-                class="nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
-                <i class="bi bi-people me-2"></i> Customer
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('customers.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="users" class="w-4 h-4 shrink-0"></i>
+                Customer
             </a>
             <a href="{{ route('products.index') }}"
-                class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
-                <i class="bi bi-box-seam me-2"></i> Produk
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('products.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="package" class="w-4 h-4 shrink-0"></i>
+                Produk
             </a>
 
-            <div class="nav-label">Transaksi</div>
+            <div class="px-5 pt-4 pb-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/40">Transaksi
+            </div>
             <a href="{{ route('purchase-orders.index') }}"
-                class="nav-link {{ request()->routeIs('purchase-orders.*') ? 'active' : '' }}">
-                <i class="bi bi-cart-plus me-2"></i> Purchase Order
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('purchase-orders.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0"></i>
+                Purchase Order
             </a>
             <a href="{{ route('sales-orders.index') }}"
-                class="nav-link {{ request()->routeIs('sales-orders.*') ? 'active' : '' }}">
-                <i class="bi bi-bag-check me-2"></i> Sales Order
+                class="flex items-center gap-2.5 px-5 py-2.5 text-sm transition-colors
+                       {{ request()->routeIs('sales-orders.*') ? 'text-white bg-white/10 border-l-[3px] border-[#c0392b]' : 'text-white/70 hover:text-white hover:bg-white/10 hover:border-l-[3px] hover:border-[#c0392b]' }}">
+                <i data-lucide="shopping-bag" class="w-4 h-4 shrink-0"></i>
+                Sales Order
             </a>
         </nav>
-    </div>
+    </aside>
 
     {{-- Main Content --}}
-    <div class="main-content">
+    <div class="lg:ml-64 min-h-screen flex flex-col">
+
         {{-- Topbar --}}
-        <div class="topbar d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm btn-outline-secondary d-lg-none" onclick="toggleSidebar()">
-                    <i class="bi bi-list fs-5"></i>
+        <header class="bg-white border-b border-gray-200 px-6 py-3 sticky top-0 z-30 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded text-gray-500 hover:bg-gray-100">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
-                <h6 class="mb-0 fw-semibold text-muted">@yield('page-title', 'Dashboard')</h6>
+                <h6 class="text-sm font-semibold text-gray-500">@yield('page-title', 'Dashboard')</h6>
             </div>
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
-                    data-bs-toggle="dropdown">
-                    <i class="bi bi-person-circle me-2 fs-5"></i>
-                    <span class="fw-semibold">{{ Auth::user()->name }}</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item text-danger">
-                                <i class="bi bi-box-arrow-right me-2"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+            <div class="relative" x-data="{ open: false }">
+                <button onclick="toggleDropdown()"
+                    class="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-gray-900">
+                    <i data-lucide="circle-user" class="w-6 h-6 text-gray-400"></i>
+                    {{ Auth::user()->name }}
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+                </button>
+                <div id="userDropdown"
+                    class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </header>
 
         {{-- Page Content --}}
-        <div class="page-content">
+        <main class="p-6 flex-1">
             @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div
+                    class="mb-4 flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+                    <i data-lucide="circle-check" class="w-4 h-4 shrink-0"></i>
+                    {{ session('success') }}
                 </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-circle me-2"></i>{{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div
+                    class="mb-4 flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                    <i data-lucide="circle-x" class="w-4 h-4 shrink-0"></i>
+                    {{ session('error') }}
                 </div>
             @endif
 
             @yield('content')
-        </div>
+        </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('show');
-            document.getElementById('sidebarOverlay').classList.toggle('show');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
+
+        function toggleDropdown() {
+            document.getElementById('userDropdown').classList.toggle('hidden');
+        }
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            if (!e.target.closest('[onclick="toggleDropdown()"]') && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
     </script>
     @yield('scripts')
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

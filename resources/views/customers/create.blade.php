@@ -4,43 +4,45 @@
 @section('page-title', 'Master Data — Tambah Customer')
 
 @section('content')
-    <div class="card border-0 shadow-sm" style="max-width: 600px;">
-        <div class="card-header bg-white py-3">
-            <h6 class="mb-0 fw-semibold">Form Tambah Customer</h6>
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden max-w-xl">
+        <div class="px-5 py-4 border-b border-gray-100">
+            <h6 class="font-semibold text-gray-700">Form Tambah Customer</h6>
         </div>
-        <div class="card-body">
-            <form action="{{ route('customers.store') }}" method="POST">
+        <div class="p-5">
+            <form action="{{ route('customers.store') }}" method="POST" id="theForm">
                 @csrf
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Nama Customer <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}" required>
+                @php $inp = 'w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#c0392b]/40'; @endphp
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Customer <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                        class="{{ $inp }} {{ $errors->has('name') ? 'border-red-400 bg-red-50' : '' }}">
                     @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Telepon</label>
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
-                        placeholder="021-xxxxxxx">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}" placeholder="email@customer.com">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mb-4">
-                    <label class="form-label fw-semibold">Alamat</label>
-                    <textarea name="address" class="form-control" rows="3">{{ old('address') }}</textarea>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Telepon</label>
+                    <input type="text" name="phone" value="{{ old('phone') }}" placeholder="021-xxxxxxx"
+                        class="{{ $inp }}">
                 </div>
-                <div class="d-flex gap-2">
-                    <button type="submit" id="btnSubmit" class="btn text-white" style="background-color: #c0392b;">
-                        <i class="bi bi-check-lg me-1"></i> Simpan
-                    </button>
-                    <a href="{{ route('customers.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="email@customer.com"
+                        class="{{ $inp }} {{ $errors->has('email') ? 'border-red-400 bg-red-50' : '' }}">
+                    @error('email')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Alamat</label>
+                    <textarea name="address" rows="3" class="{{ $inp }}">{{ old('address') }}</textarea>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" id="btnSubmit"
+                        class="bg-[#c0392b] hover:bg-[#a93226] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Simpan</button>
+                    <a href="{{ route('customers.index') }}"
+                        class="inline-flex items-center px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</a>
                 </div>
             </form>
         </div>
@@ -50,7 +52,7 @@
 @section('scripts')
     <script>
         let submitted = false;
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('theForm').addEventListener('submit', function(e) {
             if (submitted) {
                 e.preventDefault();
                 return;
@@ -58,7 +60,7 @@
             submitted = true;
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menyimpan...';
+            btn.textContent = 'Menyimpan...';
         });
     </script>
 @endsection
