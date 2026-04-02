@@ -119,3 +119,46 @@ Akses aplikasi di `http://localhost:8000`
 | admin@asietex.com | admin123 |
 
 ---
+
+## Cara Menjalankan dengan Docker
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/tiedsandi/asietex-app
+cd asietex-app
+```
+
+### 2. Setup environment
+
+```bash
+cp .env.example .env
+```
+
+Edit file `.env` sesuaikan dengan docker-compose:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=db
+DB_PORT=5432
+DB_DATABASE=asietex_db
+DB_USERNAME=postgres
+DB_PASSWORD=password123
+```
+
+### 3. Jalankan Docker
+
+```bash
+docker compose up -d --build
+```
+
+### 4. Generate key & migration
+
+```bash
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate --seed
+```
+
+Akses aplikasi di `http://localhost:8000`
+
+---
